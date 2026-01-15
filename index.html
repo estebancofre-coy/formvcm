@@ -74,16 +74,14 @@
             <div class="container">
                 <div class="header-content">
                     <div class="bloque-izq">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Gobierno_de_Chile_2022_%28azul%29.svg/800px-Gobierno_de_Chile_2022_%28azul%29.svg.png" 
+                        <img id="logoGobImg" 
                              alt="Gobierno de Chile" 
-                             class="logo-gob"
-                             crossorigin="anonymous">
+                             class="logo-gob">
                     </div>
                     <div class="bloque-der">
-                        <img src="https://uaysen.cl/sites/default/files/2021-03/logo-uaysen.png" 
+                        <img id="logoUaysenImg" 
                              alt="Universidad de Aysén" 
-                             class="logo-uaysen"
-                             crossorigin="anonymous">
+                             class="logo-uaysen">
                     </div>
                     <div class="page-title">
                         <h1 class="h3 mb-1">Formulario de Postulación</h1>
@@ -348,7 +346,27 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        // --- CARGAR IMÁGENES LOCALES COMO BLOBS ---
+        async function cargarImagenesLocales() {
+            try {
+                // Cargar logo Gobierno de Chile
+                const responseGob = await fetch('logoedugob.jpg');
+                const blobGob = await responseGob.blob();
+                const urlGob = URL.createObjectURL(blobGob);
+                document.getElementById('logoGobImg').src = urlGob;
+
+                // Cargar logo Universidad Aysén
+                const responseUaysen = await fetch('logouaysen.png');
+                const blobUaysen = await responseUaysen.blob();
+                const urlUaysen = URL.createObjectURL(blobUaysen);
+                document.getElementById('logoUaysenImg').src = urlUaysen;
+            } catch (error) {
+                console.error('Error cargando imágenes locales:', error);
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function(){
+            cargarImagenesLocales();
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             tooltipTriggerList.map(function (tooltipTriggerEl) { return new bootstrap.Tooltip(tooltipTriggerEl); });
             agregarFilaObjetivo();
