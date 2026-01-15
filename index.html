@@ -519,21 +519,34 @@
                     institucion: document.querySelector('[name="inst_nombre"]').value
                 };
 
-                google.script.run
-                    .withSuccessHandler(function(respuesta) {
-                        btn.disabled = false;
-                        btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Enviado Exitosamente';
-                        btn.classList.remove('btn-success');
-                        btn.classList.add('btn-secondary');
-                        alert("¡Éxito! " + respuesta.mensaje);
-                    })
-                    .withFailureHandler(function(error) {
-                        btn.disabled = false;
-                        btn.innerHTML = 'Reintentar Envío';
-                        console.error(error);
-                        alert("Error al enviar: " + error.message);
-                    })
-                    .procesarEnvioPostulacion(datosFormulario, pdfBlob); 
+                // Crear FormData para enviar el PDF
+                const formData = new FormData();
+                formData.append('pdfBlob', pdfBlob, 'Postulacion_UAysen.pdf');
+                formData.append('postulanteNombre', datosFormulario.postulanteNombre);
+                formData.append('postulanteEmail', datosFormulario.postulanteEmail);
+                formData.append('institucion', datosFormulario.institucion);
+
+                // URL de Google Apps Script
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbwVmT9eb-Qtsrjq-HSifLKlviDB5aAMnSfQApzmbnb9-gRppSiKwP9VRr93aJTZDp0x/exec';
+
+                fetch(scriptUrl, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Enviado Exitosamente';
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-secondary');
+                    alert("¡Éxito! " + data.mensaje);
+                })
+                .catch(error => {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Reintentar Envío';
+                    console.error(error);
+                    alert("Error al enviar: " + error.message);
+                });
             }).catch(function(err) {
                  btn.disabled = false;
                  btn.innerHTML = 'Reintentar Envío';
