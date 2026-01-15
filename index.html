@@ -44,7 +44,7 @@
         
         .total-row input { font-weight: bold; color: #003366; font-size: 1.1em; }
 
-        /* IMPRESIÓN (CSS Mágico para el PDF del usuario) */
+        /* IMPRESIÓN */
         @media print {
             body * { visibility: hidden; }
             #modalRevision, #modalRevision * { visibility: visible; }
@@ -179,7 +179,7 @@
                 <div class="mb-4">
                     <label class="form-label fw-bold">Justificación del desafío y Diagnóstico Regional</label>
                     <div class="hint-block">
-                        <strong>Instrucciones:</strong> Incluir un breve resumen de la necesidad u oportunidad territorial... (Texto completo del hint)...
+                        <strong>Instrucciones:</strong> Incluir un breve resumen de la necesidad u oportunidad territorial que se busca abordar mediante el Desafío Territorial postulado. Especificar el territorio en el cual se implementará la iniciativa, describiendo su pertinencia territorial y su alineación con el quehacer, la experiencia y/o las capacidades de la institución postulante. Señalar los beneficiarios directos e indirectos a los cuales se espera contribuir; definir las transformaciones que se proyecta generar en el desarrollo regional.
                     </div>
                     <textarea class="form-control" name="justificacion" id="txt_justificacion" rows="8" required onkeyup="contarPalabras('txt_justificacion','count_justificacion')"></textarea>
                     <span id="count_justificacion" class="word-counter">0 / 300 palabras</span>
@@ -242,7 +242,7 @@
                 </div>
 
                 <div class="alert alert-success small mb-4">
-                    <i class="bi bi-people-fill"></i> Ha seleccionado postular con <strong id="txt_cant_profesionales">1</strong> profesional(es). Por favor complete la ficha técnica para cada uno.
+                    <i class="bi bi-people-fill"></i> Ha seleccionado postular con <strong id="txt_cant_profesionales">1</strong> profesional(es).
                 </div>
 
                 <div id="contenedor-perfiles"></div>
@@ -251,7 +251,7 @@
             <div class="form-section">
                 <div class="section-title">7. Financiamiento</div>
                 <div class="alert alert-secondary small">
-                    El aporte UAysén es de $13.200.000 por cada profesional (12 meses). El cálculo se actualiza automáticamente según la cantidad de profesionales seleccionados.
+                    El aporte UAysén es de $13.200.000 por cada profesional (12 meses). El cálculo se actualiza automáticamente.
                 </div>
                 
                 <table class="table table-bordered align-middle">
@@ -276,13 +276,16 @@
                                 </div>
                             </td>
                             <td>
-                                <input type="text" class="form-control text-end" value="0" disabled placeholder="No aplica">
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control text-end" id="input_socio_rrhh" value="0" min="0" oninput="calcularTotal()" name="monto_socio_rrhh">
+                                </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <strong>Gastos de Operación (Copago)</strong><br>
-                                <span class="small text-muted">Remuneración complementaria, Movilización, Viáticos, Mantención, Seguros</span>
+                                <span class="small text-muted">Movilización, Viáticos, Mantención, Seguros</span>
                             </td>
                             <td>
                                 <input type="text" class="form-control text-end" value="0" disabled>
@@ -290,7 +293,7 @@
                             <td>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input type="number" class="form-control text-end" id="input_socio" value="0" min="0" oninput="calcularTotal()" name="monto_socio">
+                                    <input type="number" class="form-control text-end" id="input_socio_operacion" value="0" min="0" oninput="calcularTotal()" name="monto_socio_operacion">
                                 </div>
                             </td>
                         </tr>
@@ -330,9 +333,7 @@
                             <i class="bi bi-printer"></i> Imprimir / Guardar como PDF
                         </button>
                     </div>
-                    
-                    <div id="contenidoRevision" class="p-3">
-                        </div>
+                    <div id="contenidoRevision" class="p-3"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary no-print" data-bs-dismiss="modal">Volver y Editar</button>
@@ -347,30 +348,23 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // CONFIGURACIÓN INICIAL
         document.addEventListener("DOMContentLoaded", function(){
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             tooltipTriggerList.map(function (tooltipTriggerEl) { return new bootstrap.Tooltip(tooltipTriggerEl); });
             agregarFilaObjetivo();
-            actualizarPerfiles(); // Generar el perfil 1 por defecto
+            actualizarPerfiles();
         });
 
-        // 1. GENERADOR DE PERFILES (ELASTICIDAD)
         function actualizarPerfiles() {
             const cantidad = parseInt(document.getElementById('selector_cantidad').value);
             const contenedor = document.getElementById('contenedor-perfiles');
             document.getElementById('txt_cant_profesionales').innerText = cantidad;
-            
-            // Guardamos valores previos para no borrarlos al regenerar (opcional avanzado, aquí regeneramos simple)
-            // Para una UX perfecta, idealmente ocultaríamos en vez de borrar, pero para este MVP regeneramos.
-            
-            contenedor.innerHTML = ""; // Limpiar
+            contenedor.innerHTML = ""; 
 
             for (let i = 1; i <= cantidad; i++) {
                 const htmlPerfil = `
                     <div class="perfil-card fade-in">
                         <span class="perfil-badge">PROFESIONAL N° ${i}</span>
-                        
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold">Carrera requerida</label>
@@ -393,7 +387,6 @@
                                 <label class="form-label fw-bold">Labores específicas</label>
                                 <textarea class="form-control" name="perfil_${i}_labores" rows="3" required></textarea>
                             </div>
-                            
                             <div class="col-md-6">
                                 <label class="form-label fw-bold small text-secondary">Competencias Técnicas a fortalecer</label>
                                 <input type="text" class="form-control" name="perfil_${i}_tecnica" required>
@@ -415,27 +408,27 @@
                 `;
                 contenedor.insertAdjacentHTML('beforeend', htmlPerfil);
             }
-            calcularTotal(); // Recalcular presupuesto al cambiar cantidad
+            calcularTotal();
         }
 
-        // 2. CÁLCULO FINANCIERO INTELIGENTE
+        // CÁLCULO FINANCIERO ACTUALIZADO (SUMA LOS 3 VALORES)
         function calcularTotal() {
             const cantidad = parseInt(document.getElementById('selector_cantidad').value);
             const montoBase = 13200000;
             const aporteUAysen = montoBase * cantidad;
             
-            // Actualizar visualización Aporte U
             document.getElementById('monto_uaysen_display').value = new Intl.NumberFormat('es-CL').format(aporteUAysen);
             document.getElementById('monto_uaysen_calculado').value = aporteUAysen;
 
-            const aporteSocio = parseFloat(document.getElementById('input_socio').value) || 0;
-            const total = aporteUAysen + aporteSocio;
+            const socioRRHH = parseFloat(document.getElementById('input_socio_rrhh').value) || 0;
+            const socioOp = parseFloat(document.getElementById('input_socio_operacion').value) || 0;
+            
+            const total = aporteUAysen + socioRRHH + socioOp;
             
             document.getElementById('texto_total').innerText = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(total);
         }
 
-        // 3. OBJETIVOS Y PALABRAS (Funciones Standard)
-        function contarPalabras(idInput, idCounter) { /* ... (Igual que antes) ... */ 
+        function contarPalabras(idInput, idCounter) { 
             const input = document.getElementById(idInput);
             const counter = document.getElementById(idCounter);
             const maxWords = 300;
@@ -463,24 +456,18 @@
         }
         function eliminarFila(id) { document.getElementById('obj_fila_' + id).remove(); contadorObj--; document.getElementById('btnAgregarObj').style.display = 'block'; }
 
-
-        // 4. REVISIÓN Y ENVÍO
         function abrirRevision() {
             const form = document.getElementById('postulacionForm');
             if(!form.checkValidity()) { form.reportValidity(); return; }
 
             const formData = new FormData(form);
             let html = "<h4 class='mb-3 border-bottom'>Resumen de Postulación</h4>";
-
-            // Lógica simple de visualización
             for (const [key, value] of formData.entries()) {
                 if(value.trim() !== "") {
-                    // Embellecer claves
                     let label = key.toUpperCase().replace(/_/g, " ");
                     html += `<div style="margin-bottom:8px"><strong>${label}:</strong><br>${value}</div>`;
                 }
             }
-            
             document.getElementById('contenidoRevision').innerHTML = html;
             new bootstrap.Modal(document.getElementById('modalRevision')).show();
         }
@@ -492,15 +479,13 @@
             const formData = new FormData(document.getElementById('postulacionForm'));
             const data = {};
             formData.forEach((v, k) => data[k] = v);
-            
-            // Agregar cantidad para que el backend sepa iterar
             data['cantidad_profesionales'] = document.getElementById('selector_cantidad').value;
 
-            // PEGAR URL AQUI
+            // PEGA TU URL DE SCRIPT AQUI
             const SCRIPT_URL = "PEGAR_AQUI_LA_URL_DE_TU_SCRIPT_DE_GOOGLE"; 
 
             fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) })
-            .then(r => { alert("¡Enviado!"); location.reload(); })
+            .then(r => { alert("¡Enviado! Revisa tu correo."); location.reload(); })
             .catch(e => { alert("Error de conexión"); btn.disabled = false; });
         }
     </script>
