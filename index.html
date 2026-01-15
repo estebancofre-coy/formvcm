@@ -482,7 +482,7 @@
             data['cantidad_profesionales'] = document.getElementById('selector_cantidad').value;
 
             // PEGA TU URL DE SCRIPT AQUI
-            const SCRIPT_URL = "PEGAR_AQUI_LA_URL_DE_TU_SCRIPT_DE_GOOGLE"; 
+            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzq8E7OL_GCx2Zul7L7Qawik9qPphMv1zqVs8yOIJlf4LLwkuEQA_XJWHhVA4cUurq-/exec"; 
 
             fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) })
             .then(r => { alert("¡Enviado! Revisa tu correo."); location.reload(); })
