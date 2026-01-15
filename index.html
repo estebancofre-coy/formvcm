@@ -474,19 +474,35 @@
             btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando postulación...';
             msg.style.display = 'block';
 
-            // 3. Recolectar todos los datos del formulario
+            // 3. Convertir FormData a JSON
             const formData = new FormData(form);
+            const jsonData = {};
+            
+            for (let [key, value] of formData.entries()) {
+                if (jsonData[key]) {
+                    // Si la clave ya existe, convertir a array
+                    if (!Array.isArray(jsonData[key])) {
+                        jsonData[key] = [jsonData[key]];
+                    }
+                    jsonData[key].push(value);
+                } else {
+                    jsonData[key] = value;
+                }
+            }
             
             // Agregar datos del postulante
-            formData.append('postulanteNombre', nombrePostulante);
-            formData.append('postulanteEmail', emailPostulante);
+            jsonData.postulanteNombre = nombrePostulante;
+            jsonData.postulanteEmail = emailPostulante;
 
             // 4. Enviar datos a Google Apps Script
             const scriptUrl = 'https://script.google.com/macros/s/AKfycbyhCKD8O9WSvNtuoY9WHmmBG6qtL_-aOdTBXxEhV6YzOycOMtKt6yDFUBdlcF9uzH6n/exec';
 
             fetch(scriptUrl, {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
             })
             .then(response => response.json())
             .then(data => {
