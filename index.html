@@ -5,92 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postulación Desafío Territorial - U. Aysén</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f6f9;
+        /* ESTILOS LIMPIOS Y SIMPLES */
+        body { 
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f6f9; 
             color: #333;
         }
-        .header-ua {
-            background-color: #003366; /* Azul U Aysén aproximado */
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            border-bottom: 5px solid #d9d9d9;
-        }
-        .form-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-            border-left: 5px solid #003366;
-        }
-        .section-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #003366;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 0.5rem;
-        }
-        .card-objetivo {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            margin-bottom: 15px;
-        }
-        .total-row {
-            background-color: #003366;
-            color: white;
-            font-weight: bold;
-        }
-        .total-row input {
+        
+        /* HEADER FLEXBOX: Alineación Extrema */
+        .header-bg {
             background-color: white;
-            color: #000;
-            font-weight: bold;
-            text-align: right;
+            border-bottom: 4px solid #003366; /* Azul U Aysén */
+            padding: 20px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        /* Spinner de carga */
-        .loader {
-            display: none;
-            border: 3px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 3px solid #003366;
-            width: 20px;
-            height: 20px;
-            -webkit-animation: spin 2s linear infinite; /* Safari */
-            animation: spin 2s linear infinite;
-            margin-left: 10px;
+
+        .header-content {
+            display: flex;
+            justify-content: space-between; /* Izquierda <--- espacio ---> Derecha */
+            align-items: center; 
+            flex-wrap: wrap; 
+            gap: 20px;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        /* Contenedor Izquierdo (Logos Gobierno juntos) */
+        .bloque-izq {
+            display: flex;
+            gap: 20px; /* Espacio entre los dos logos del gobierno */
+            align-items: center;
+        }
+
+        /* Contenedor Derecho (Universidad) */
+        .bloque-der {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Control de tamaño de imágenes */
+        .logo-gob {
+            height: 55px; /* Altura estándar para gobierno */
+            width: auto;
+        }
+
+        .logo-uaysen {
+            height: 70px; /* Logo U un poco más grande para jerarquía */
+            width: auto;
+        }
+
+        .page-title {
+            color: #003366;
+            margin-top: 10px;
+            font-weight: 700;
+            text-align: center;
+            width: 100%;
+            padding-top: 20px;
+            border-top: 1px solid #eee; /* Separador sutil */
+        }
+
+        /* Resto del formulario */
+        .form-section { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 2rem; border-left: 5px solid #003366; }
+        .section-title { font-size: 1.3rem; font-weight: bold; color: #003366; margin-bottom: 1.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
+        .hint-icon { color: #0056b3; cursor: pointer; margin-left: 5px; }
+        .card-objetivo { background-color: #f8f9fa; border: 1px solid #dee2e6; margin-bottom: 15px; }
+        .total-row input { font-weight: bold; color: #003366; font-size: 1.1em; }
+        
+        /* Estilos móviles */
+        @media (max-width: 768px) {
+            .header-content { justify-content: center; } /* En celular se centran todos */
+            .logo-gob { height: 40px; }
+            .logo-uaysen { height: 50px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="header-ua text-center">
+    <header class="header-bg">
         <div class="container">
-            <h1>Formulario de Postulación</h1>
-            <p class="lead mb-0">Anexo 1: Desafío Territorial y Admisibilidad</p>
+            <div class="header-content">
+                
+                <div class="bloque-izq">
+                    <img src="logoedugob.jpg" alt="Gobierno de Chile" class="logo-gob">
+                    <img src="logoedugob2.png" alt="Ministerio de Educación" class="logo-gob">
+                </div>
+
+                <div class="bloque-der">
+                    <img src="logouaysen.png" alt="Universidad de Aysén" class="logo-uaysen">
+                </div>
+
+                <div class="page-title">
+                    <h1 class="h3 mb-1">Formulario de Postulación</h1>
+                    <small class="text-muted h6 fw-normal">Anexo 1: Desafío Territorial y Admisibilidad</small>
+                </div>
+            </div>
         </div>
-    </div>
+    </header>
 
     <div class="container">
         <form id="postulacionForm">
             
             <div class="form-section">
-                <div class="section-title">1. Identificación de la Institución u Organización</div>
+                <div class="section-title">1. Identificación de la Institución</div>
                 <div class="row g-3">
                     <div class="col-md-8">
-                        <label class="form-label">Nombre de la institución</label>
+                        <label class="form-label">Nombre de la institución u organización</label>
                         <input type="text" class="form-control" name="inst_nombre" required>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">RUT</label>
-                        <input type="text" class="form-control" name="inst_rut" placeholder="12.345.678-9" required>
+                        <input type="text" class="form-control" name="inst_rut" placeholder="Ej: 12.345.678-9" required>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Tipo de institución</label>
@@ -103,121 +129,64 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Dirección</label>
-                        <input type="text" class="form-control" name="inst_direccion" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Correo institucional</label>
+                        <label class="form-label">Correo de contacto</label>
                         <input type="email" class="form-control" name="inst_email" required>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Teléfono</label>
-                        <input type="tel" class="form-control" name="inst_fono" required>
+                     <div class="col-md-12">
+                         <div class="alert alert-light border small text-muted">
+                            <i class="bi bi-info-circle"></i> Los datos del Representante Legal y Supervisor se solicitarán en la siguiente etapa.
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-section">
-                <div class="section-title">2. Identificación del Representante Legal</div>
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <label class="form-label">Nombres y Apellidos</label>
-                        <input type="text" class="form-control" name="rep_nombre" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">RUN</label>
-                        <input type="text" class="form-control" name="rep_run" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Cargo</label>
-                        <input type="text" class="form-control" name="rep_cargo" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Correo</label>
-                        <input type="email" class="form-control" name="rep_email" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <div class="section-title">3. Supervisor del Profesional Alumni</div>
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <label class="form-label">Nombres y Apellidos</label>
-                        <input type="text" class="form-control" name="sup_nombre" required>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label">RUN</label>
-                        <input type="text" class="form-control" name="sup_run" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Cargo</label>
-                        <input type="text" class="form-control" name="sup_cargo" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Correo</label>
-                        <input type="email" class="form-control" name="sup_email" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <div class="section-title">4. Resumen de la Iniciativa</div>
+                <div class="section-title">2. Resumen y Diagnóstico</div>
                 
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Justificación del desafío y Diagnóstico</label>
-                    <p class="form-text text-muted">Incluya: Necesidad territorial, pertinencia con Aysén y beneficiarios directos/indirectos.</p>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Justificación del desafío y Diagnóstico Regional</label>
+                    <span class="hint-icon" data-bs-toggle="tooltip" title="Incluir un breve resumen de la necesidad u oportunidad territorial... Especificar el territorio... pertinencia territorial."><i class="bi bi-question-circle-fill"></i></span>
                     <textarea class="form-control" name="justificacion" rows="6" maxlength="3000" required></textarea>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Área estratégica (Seleccione una)</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="area_estrategica" value="Turismo" required>
-                        <label class="form-check-label">Desarrollo del Turismo Regional</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="area_estrategica" value="Energía">
-                        <label class="form-check-label">Desarrollo Energético</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="area_estrategica" value="Ambiental">
-                        <label class="form-check-label">Conservación y Protección Ambiental</label>
-                    </div>
-                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="area_estrategica" value="Productivo">
-                        <label class="form-check-label">Desarrollo Encadenamientos Productivos</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="area_estrategica" value="Silvoagropecuario">
-                        <label class="form-check-label">Desarrollo del Sector Silvoagropecuario</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="area_estrategica" value="Salud">
-                        <label class="form-check-label">Mejoramiento de la Atención de Salud</label>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Área estratégica</label>
+                    <div class="card p-3 bg-light border-0">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Turismo"><label class="form-check-label">Turismo Regional</label></div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Energia"><label class="form-check-label">Desarrollo Energético</label></div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Ambiental"><label class="form-check-label">Conservación Ambiental</label></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Productivo"><label class="form-check-label">Encadenamientos Productivos</label></div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Silvoagropecuario"><label class="form-check-label">Sector Silvoagropecuario</label></div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Salud"><label class="form-check-label">Mejoramiento de Salud</label></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
+                
                 <div class="mb-3">
                     <label class="form-label fw-bold">Contribución al área estratégica</label>
-                    <textarea class="form-control" name="contribucion_area" rows="3" required></textarea>
+                    <textarea class="form-control" name="contribucion" rows="3" required></textarea>
                 </div>
+            </div>
 
-                <label class="form-label fw-bold mt-4">Objetivos, actividades y resultados</label>
-                <div id="objetivos-container">
-                    </div>
-                <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="agregarObjetivo()">
-                    + Agregar Objetivo Específico
+            <div class="form-section">
+                <div class="section-title">3. Objetivos y Actividades</div>
+                <div class="alert alert-info small"><i class="bi bi-exclamation-circle"></i> Defina las actividades principales y resultados esperados para cada objetivo.</div>
+
+                <div id="contenedor-objetivos"></div>
+
+                <button type="button" class="btn btn-outline-primary w-100 py-2 mt-2" onclick="agregarFilaObjetivo()">
+                    <i class="bi bi-plus-circle"></i> Agregar otro Objetivo Específico
                 </button>
             </div>
 
             <div class="form-section">
-                <div class="section-title">Perfil Profesional y Plan de Formación</div>
+                <div class="section-title">4. Perfil del Profesional</div>
                 <div class="row g-3">
-                    <div class="col-md-12">
-                        <label class="form-label">Objetivo del cargo</label>
-                        <textarea class="form-control" name="perfil_objetivo" rows="2" required></textarea>
-                    </div>
                     <div class="col-md-6">
                         <label class="form-label">Carrera requerida (UAysén)</label>
                         <select class="form-select" name="perfil_carrera" required>
@@ -226,69 +195,119 @@
                             <option value="Enfermería">Enfermería</option>
                             <option value="Ingeniería Civil Industrial">Ingeniería Civil Industrial</option>
                             <option value="Ingeniería Forestal">Ingeniería Forestal</option>
+                            <option value="Obstetricia">Obstetricia</option>
                             <option value="Psicología">Psicología</option>
                             <option value="Trabajo Social">Trabajo Social</option>
-                            <option value="Obstetricia">Obstetricia</option>
                         </select>
                     </div>
-                    <div class="col-md-12">
-                        <label class="form-label">Labores específicas del Alumni</label>
+                     <div class="col-md-6">
+                        <label class="form-label">Objetivo del cargo</label>
+                        <input type="text" class="form-control" name="perfil_objetivo_cargo" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Labores específicas</label>
+                        <span class="hint-icon" data-bs-toggle="tooltip" title="Redactar, en detalle, las funciones que deberá desempeñar el profesional alumni..."><i class="bi bi-question-circle-fill"></i></span>
                         <textarea class="form-control" name="perfil_labores" rows="3" required></textarea>
                     </div>
-                    <div class="col-md-12">
-                        <label class="form-label fw-bold">Plan de formación complementaria</label>
+                    
+                    <div class="col-12 mt-3"><h6 class="text-primary border-bottom pb-2">Plan de formación complementaria</h6></div>
+                    <div class="col-md-6">
+                        <label class="form-label">Competencias Técnicas</label>
+                        <input type="text" class="form-control" name="formacion_tecnica" placeholder="Ej: Manejo de software, normativa local...">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Competencias Técnicas a fortalecer</label>
-                        <input type="text" class="form-control" name="plan_tecnico" placeholder="Ej: Excel avanzado, Normativa X" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Habilidades Blandas a fortalecer</label>
-                        <input type="text" class="form-control" name="plan_blando" placeholder="Ej: Liderazgo, Trabajo en equipo" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Impacto Territorial</label>
-                        <textarea class="form-control" name="impacto" rows="2" required></textarea>
-                    </div>
-                     <div class="col-md-6">
-                        <label class="form-label">Sostenibilidad</label>
-                        <textarea class="form-control" name="sostenibilidad" rows="2" required></textarea>
+                        <label class="form-label">Habilidades Blandas</label>
+                        <input type="text" class="form-control" name="formacion_blanda" placeholder="Ej: Liderazgo, comunicación territorial...">
                     </div>
                 </div>
             </div>
 
             <div class="form-section">
                 <div class="section-title">5. Financiamiento</div>
-                <p class="text-muted small">Los montos deben ser ingresados sin puntos ni comas.</p>
+                <p class="text-muted small">El aporte de la Universidad es fijo ($13.200.000).</p>
                 
-                <table class="table table-bordered table-responsive-sm">
+                <table class="table table-bordered align-middle">
                     <thead class="table-light">
-                        <tr>
-                            <th>Ítem / Subítem</th>
-                            <th width="25%">Aporte UAysén ($)</th>
-                            <th width="25%">Aporte Socio ($)</th>
+                        <tr class="text-center">
+                            <th width="40%">Ítem</th>
+                            <th width="30%">Aporte UAysén ($)</th>
+                            <th width="30%">Aporte Socio ($)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>
-                                <strong>Recursos Humanos</strong><br>
-                                <span class="small text-muted">Honorarios Alumni (12 meses)</span>
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" value="13200000" readonly name="monto_uaysen_rrhh">
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" value="0" disabled>
-                            </td>
+                            <td><strong>Recursos Humanos</strong><br><span class="small text-muted">Honorarios Alumni (12 meses)</span></td>
+                            <td><div class="input-group"><span class="input-group-text">$</span><input type="text" class="form-control text-end" value="13.200.000" readonly style="background-color: #e9ecef;"></div></td>
+                            <td><input type="text" class="form-control text-end" value="0" disabled></td>
                         </tr>
                         <tr>
-                            <td>
-                                <strong>Gastos de Operación</strong><br>
-                                <span class="small text-muted">Movilización, Viáticos, Seguros, etc.</span>
-                            </td>
-                            <td>
-                                <input type="number" class="form-control" value="0" disabled>
-                            </td>
-                            <td>
-                                <input type="number" class="form-control bg-white" id="input_
+                            <td><strong>Gastos de Operación</strong><br><span class="small text-muted">Movilización, Viáticos, Seguros</span></td>
+                            <td><input type="text" class="form-control text-end" value="0" disabled></td>
+                            <td><div class="input-group"><span class="input-group-text">$</span><input type="number" class="form-control text-end" id="input_socio" value="0" min="0" oninput="calcularTotal()"></div></td>
+                        </tr>
+                        <tr class="table-primary total-row">
+                            <td class="text-end">TOTAL PROYECTO</td>
+                            <td colspan="2" class="text-end px-4" id="texto_total">$ 13.200.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="d-grid gap-2 mb-5">
+                <button type="submit" class="btn btn-primary btn-lg fw-bold" id="btnSubmit">ENVIAR POSTULACIÓN</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // INICIALIZACIÓN DE TOOLTIPS Y OBJETIVOS
+        document.addEventListener("DOMContentLoaded", function(){
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) { return new bootstrap.Tooltip(tooltipTriggerEl); });
+            agregarFilaObjetivo(); // Primer objetivo por defecto
+        });
+
+        // LÓGICA DE OBJETIVOS
+        let contadorObj = 0;
+        function agregarFilaObjetivo() {
+            contadorObj++;
+            const nuevaFila = document.createElement('div');
+            nuevaFila.className = 'card card-objetivo p-3 fade-in';
+            nuevaFila.id = 'obj_fila_' + contadorObj;
+            nuevaFila.innerHTML = `
+                <div class="d-flex justify-content-between mb-2">
+                    <h6 class="fw-bold text-primary">Objetivo Específico N° ${contadorObj}</h6>
+                    ${contadorObj > 1 ? `<button type="button" class="btn-close" onclick="eliminarFila(${contadorObj})"></button>` : ''}
+                </div>
+                <div class="mb-2"><input type="text" class="form-control" name="obj_desc_${contadorObj}" placeholder="Descripción del objetivo..." required></div>
+                <div class="row g-2">
+                    <div class="col-12"><textarea class="form-control form-control-sm" name="obj_act_${contadorObj}" rows="2" placeholder="Actividades principales..." required></textarea></div>
+                    <div class="col-6"><input type="text" class="form-control form-control-sm" name="obj_res_${contadorObj}" placeholder="Resultados esperados" required></div>
+                    <div class="col-6"><input type="text" class="form-control form-control-sm" name="obj_met_${contadorObj}" placeholder="Metodología" required></div>
+                </div>`;
+            document.getElementById('contenedor-objetivos').appendChild(nuevaFila);
+        }
+        function eliminarFila(id) { document.getElementById('obj_fila_' + id).remove(); }
+
+        // LÓGICA DE CÁLCULO
+        function calcularTotal() {
+            const aporteSocio = parseFloat(document.getElementById('input_socio').value) || 0;
+            const total = 13200000 + aporteSocio;
+            document.getElementById('texto_total').innerText = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(total);
+        }
+
+        // LÓGICA DE ENVÍO
+        document.getElementById('postulacionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSubmit');
+            btn.innerHTML = 'Enviando...'; btn.disabled = true;
+            
+            // SIMULACIÓN
+            setTimeout(() => { alert("Recuerda que falta conectar el script de Google. Los logos ya están configurados."); btn.disabled = false; btn.innerText = "ENVIAR POSTULACIÓN"; }, 1500);
+        });
+    </script>
+</body>
+</html>
