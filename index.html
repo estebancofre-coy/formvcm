@@ -8,76 +8,105 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     
     <style>
-        /* ESTILOS LIMPIOS Y SIMPLES */
         body { 
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #f4f6f9; 
-            color: #333;
+            color: #212529;
+            padding-bottom: 50px;
         }
         
-        /* HEADER FLEXBOX: Alineación Extrema */
+        /* HEADER */
         .header-bg {
             background-color: white;
-            border-bottom: 4px solid #003366; /* Azul U Aysén */
+            border-bottom: 4px solid #003366; 
             padding: 20px 0;
             margin-bottom: 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-
         .header-content {
             display: flex;
-            justify-content: space-between; /* Izquierda <--- espacio ---> Derecha */
+            justify-content: space-between; 
             align-items: center; 
             flex-wrap: wrap; 
             gap: 20px;
         }
-
-        /* Contenedor Izquierdo (Logos Gobierno juntos) */
-        .bloque-izq {
-            display: flex;
-            gap: 20px; /* Espacio entre los dos logos del gobierno */
-            align-items: center;
-        }
-
-        /* Contenedor Derecho (Universidad) */
-        .bloque-der {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Control de tamaño de imágenes */
-        .logo-gob {
-            height: 55px; /* Altura estándar para gobierno */
-            width: auto;
-        }
-
-        .logo-uaysen {
-            height: 70px; /* Logo U un poco más grande para jerarquía */
-            width: auto;
-        }
-
+        .bloque-izq { display: flex; gap: 20px; align-items: center; }
+        .bloque-der { display: flex; align-items: center; }
+        .logo-gob { height: 55px; width: auto; }
+        .logo-uaysen { height: 70px; width: auto; }
+        
         .page-title {
             color: #003366;
-            margin-top: 10px;
+            margin-top: 15px;
             font-weight: 700;
             text-align: center;
             width: 100%;
             padding-top: 20px;
-            border-top: 1px solid #eee; /* Separador sutil */
+            border-top: 1px solid #eee;
         }
 
-        /* Resto del formulario */
-        .form-section { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 2rem; border-left: 5px solid #003366; }
-        .section-title { font-size: 1.3rem; font-weight: bold; color: #003366; margin-bottom: 1.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
-        .hint-icon { color: #0056b3; cursor: pointer; margin-left: 5px; }
-        .card-objetivo { background-color: #f8f9fa; border: 1px solid #dee2e6; margin-bottom: 15px; }
-        .total-row input { font-weight: bold; color: #003366; font-size: 1.1em; }
+        /* FORMULARIO */
+        .form-section { 
+            background: white; 
+            padding: 2.5rem; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            margin-bottom: 2rem; 
+            border-left: 6px solid #003366; 
+        }
+        .section-title { 
+            font-size: 1.4rem; 
+            font-weight: 800; 
+            color: #003366; 
+            margin-bottom: 1.5rem; 
+            border-bottom: 2px solid #f0f0f0; 
+            padding-bottom: 0.8rem; 
+        }
         
-        /* Estilos móviles */
+        /* HINTS Y AYUDAS VISUALES */
+        .hint-block {
+            background-color: #eef2f7;
+            border-left: 3px solid #0d6efd;
+            padding: 10px 15px;
+            font-size: 0.85rem;
+            color: #495057;
+            margin-bottom: 10px;
+            border-radius: 0 4px 4px 0;
+        }
+        .hint-icon { color: #0d6efd; cursor: pointer; margin-left: 5px; }
+        
+        /* OBJETIVOS */
+        .card-objetivo { 
+            background-color: #ffffff; 
+            border: 1px solid #ced4da; 
+            margin-bottom: 20px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .card-header-obj {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ced4da;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* VALIDACIONES */
+        .word-counter { font-size: 0.8rem; color: #6c757d; text-align: right; display: block; margin-top: 4px; }
+        .word-counter.text-danger { font-weight: bold; }
+        
+        .total-row input { font-weight: bold; color: #003366; font-size: 1.1em; }
+
+        /* MODAL DE REVISIÓN */
+        .review-label { font-weight: bold; color: #003366; font-size: 0.9rem; margin-top: 10px;}
+        .review-value { font-size: 0.95rem; border-bottom: 1px dashed #ccc; padding-bottom: 2px; margin-bottom: 5px; }
+        
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .header-content { justify-content: center; } /* En celular se centran todos */
+            .header-content { justify-content: center; }
             .logo-gob { height: 40px; }
             .logo-uaysen { height: 50px; }
+            .form-section { padding: 1.5rem; }
         }
     </style>
 </head>
@@ -86,16 +115,13 @@
     <header class="header-bg">
         <div class="container">
             <div class="header-content">
-                
                 <div class="bloque-izq">
                     <img src="logoedugob.jpg" alt="Gobierno de Chile" class="logo-gob">
                     <img src="logoedugob2.png" alt="Ministerio de Educación" class="logo-gob">
                 </div>
-
                 <div class="bloque-der">
                     <img src="logouaysen.png" alt="Universidad de Aysén" class="logo-uaysen">
                 </div>
-
                 <div class="page-title">
                     <h1 class="h3 mb-1">Formulario de Postulación</h1>
                     <small class="text-muted h6 fw-normal">Anexo 1: Desafío Territorial y Admisibilidad</small>
@@ -111,15 +137,15 @@
                 <div class="section-title">1. Identificación de la Institución</div>
                 <div class="row g-3">
                     <div class="col-md-8">
-                        <label class="form-label">Nombre de la institución u organización</label>
+                        <label class="form-label fw-bold">Nombre de la institución u organización</label>
                         <input type="text" class="form-control" name="inst_nombre" required>
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">RUT</label>
+                        <label class="form-label fw-bold">RUT</label>
                         <input type="text" class="form-control" name="inst_rut" placeholder="Ej: 12.345.678-9" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Tipo de institución</label>
+                        <label class="form-label fw-bold">Tipo de institución</label>
                         <select class="form-select" name="inst_tipo" required>
                             <option value="">Seleccione...</option>
                             <option value="Pública">Pública</option>
@@ -129,39 +155,51 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Correo de contacto</label>
+                        <label class="form-label fw-bold">Dirección</label>
+                        <input type="text" class="form-control" name="inst_direccion" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Correo de contacto institucional</label>
                         <input type="email" class="form-control" name="inst_email" required>
                     </div>
-                     <div class="col-md-12">
-                         <div class="alert alert-light border small text-muted">
-                            <i class="bi bi-info-circle"></i> Los datos del Representante Legal y Supervisor se solicitarán en la siguiente etapa.
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Teléfono de contacto</label>
+                        <input type="tel" class="form-control" name="inst_fono" required>
+                    </div>
+                    <div class="col-12 mt-3">
+                         <div class="alert alert-warning border-0 small">
+                            <i class="bi bi-info-circle-fill"></i> <strong>Nota:</strong> Los datos detallados del Representante Legal y del Supervisor del Alumni se solicitarán en la etapa de formalización para no extender este formulario inicial.
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="form-section">
-                <div class="section-title">2. Resumen y Diagnóstico</div>
+                <div class="section-title">2. Resumen de la Iniciativa y Diagnóstico</div>
                 
                 <div class="mb-4">
                     <label class="form-label fw-bold">Justificación del desafío y Diagnóstico Regional</label>
-                    <span class="hint-icon" data-bs-toggle="tooltip" title="Incluir un breve resumen de la necesidad u oportunidad territorial... Especificar el territorio... pertinencia territorial."><i class="bi bi-question-circle-fill"></i></span>
-                    <textarea class="form-control" name="justificacion" rows="6" maxlength="3000" required></textarea>
+                    <div class="hint-block">
+                        <strong>Instrucciones:</strong> Incluir un breve resumen de la necesidad u oportunidad territorial que se busca abordar mediante el Desafío Territorial postulado. Especificar el territorio en el cual se implementará la iniciativa, describiendo su pertinencia territorial y su alineación con el quehacer, la experiencia y/o las capacidades de la institución postulante. Señalar los beneficiarios directos e indirectos a los cuales se espera contribuir; definir las transformaciones que se proyecta generar en el desarrollo regional.
+                    </div>
+                    <textarea class="form-control" name="justificacion" id="txt_justificacion" rows="8" required onkeyup="contarPalabras('txt_justificacion','count_justificacion')"></textarea>
+                    <span id="count_justificacion" class="word-counter">0 / 300 palabras</span>
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label fw-bold">Área estratégica</label>
+                    <label class="form-label fw-bold">Área estratégica en la cual se enmarca la iniciativa</label>
+                    <p class="small text-muted mb-2">Seleccione aquella que sea pertinente al proyecto postulado.</p>
                     <div class="card p-3 bg-light border-0">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Turismo"><label class="form-check-label">Turismo Regional</label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Energia"><label class="form-check-label">Desarrollo Energético</label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Ambiental"><label class="form-check-label">Conservación Ambiental</label></div>
+                                <div class="form-check mb-2"><input class="form-check-input" type="radio" name="area" value="Turismo" required><label class="form-check-label">Desarrollo del Turismo Regional</label></div>
+                                <div class="form-check mb-2"><input class="form-check-input" type="radio" name="area" value="Energia"><label class="form-check-label">Desarrollo Energético</label></div>
+                                <div class="form-check mb-2"><input class="form-check-input" type="radio" name="area" value="Ambiental"><label class="form-check-label">Conservación y Protección Ambiental</label></div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Productivo"><label class="form-check-label">Encadenamientos Productivos</label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Silvoagropecuario"><label class="form-check-label">Sector Silvoagropecuario</label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="area" value="Salud"><label class="form-check-label">Mejoramiento de Salud</label></div>
+                                <div class="form-check mb-2"><input class="form-check-input" type="radio" name="area" value="Productivo"><label class="form-check-label">Desarrollo Encadenamientos Productivos</label></div>
+                                <div class="form-check mb-2"><input class="form-check-input" type="radio" name="area" value="Silvoagropecuario"><label class="form-check-label">Desarrollo del Sector Silvoagropecuario</label></div>
+                                <div class="form-check mb-2"><input class="form-check-input" type="radio" name="area" value="Salud"><label class="form-check-label">Mejoramiento de la Atención de Salud</label></div>
                             </div>
                         </div>
                     </div>
@@ -169,26 +207,42 @@
                 
                 <div class="mb-3">
                     <label class="form-label fw-bold">Contribución al área estratégica</label>
-                    <textarea class="form-control" name="contribucion" rows="3" required></textarea>
+                    <div class="hint-block">
+                        Identificar cómo el Desafío Territorial aporta al área estratégica seleccionada. Describa cómo la iniciativa contribuye <strong>directamente</strong> al desarrollo del área seleccionada.
+                    </div>
+                    <textarea class="form-control" name="contribucion" id="txt_contribucion" rows="4" required onkeyup="contarPalabras('txt_contribucion','count_contribucion')"></textarea>
+                    <span id="count_contribucion" class="word-counter">0 / 300 palabras</span>
                 </div>
             </div>
 
             <div class="form-section">
-                <div class="section-title">3. Objetivos y Actividades</div>
-                <div class="alert alert-info small"><i class="bi bi-exclamation-circle"></i> Defina las actividades principales y resultados esperados para cada objetivo.</div>
+                <div class="section-title">3. Objetivos, estrategias y resultados de inserción</div>
+                
+                <div class="mb-5 p-3 border rounded bg-light">
+                    <label class="form-label fw-bold h6 text-primary">Objetivo General de la Inserción</label>
+                    <p class="small text-muted">Defina el propósito central de la incorporación del profesional en su organización.</p>
+                    <textarea class="form-control" name="objetivo_general" rows="3" required placeholder="Redacte el objetivo general..."></textarea>
+                </div>
+
+                <hr class="my-4">
+
+                <h5 class="fw-bold mb-3 text-secondary">Objetivos Específicos (Máximo 4)</h5>
+                <div class="alert alert-info small mb-4">
+                    <i class="bi bi-exclamation-triangle-fill"></i> <strong>Importante:</strong> El agente externo deberá definir las principales actividades y los resultados esperados del trabajo a realizar por el/la profesional alumni. Con base en esta información, dicho/a profesional elaborará su plan de trabajo anual.
+                </div>
 
                 <div id="contenedor-objetivos"></div>
 
-                <button type="button" class="btn btn-outline-primary w-100 py-2 mt-2" onclick="agregarFilaObjetivo()">
-                    <i class="bi bi-plus-circle"></i> Agregar otro Objetivo Específico
+                <button type="button" class="btn btn-outline-primary w-100 py-3 mt-2 dashed-btn" id="btnAgregarObj" onclick="agregarFilaObjetivo()">
+                    <i class="bi bi-plus-circle-fill"></i> AGREGAR OBJETIVO ESPECÍFICO
                 </button>
             </div>
 
             <div class="form-section">
-                <div class="section-title">4. Perfil del Profesional</div>
+                <div class="section-title">4. Perfil Profesional y Plan de Formación</div>
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label">Carrera requerida (UAysén)</label>
+                        <label class="form-label fw-bold">Carrera requerida (UAysén)</label>
                         <select class="form-select" name="perfil_carrera" required>
                             <option value="">Seleccione...</option>
                             <option value="Agronomía">Agronomía</option>
@@ -199,51 +253,93 @@
                             <option value="Psicología">Psicología</option>
                             <option value="Trabajo Social">Trabajo Social</option>
                         </select>
+                        <div class="form-text">Definir al profesional según las carreras ofrecidas por la Universidad.</div>
                     </div>
                      <div class="col-md-6">
-                        <label class="form-label">Objetivo del cargo</label>
+                        <label class="form-label fw-bold">Objetivo del cargo</label>
                         <input type="text" class="form-control" name="perfil_objetivo_cargo" required>
                     </div>
-                    <div class="col-12">
-                        <label class="form-label">Labores específicas</label>
-                        <span class="hint-icon" data-bs-toggle="tooltip" title="Redactar, en detalle, las funciones que deberá desempeñar el profesional alumni..."><i class="bi bi-question-circle-fill"></i></span>
-                        <textarea class="form-control" name="perfil_labores" rows="3" required></textarea>
+                    
+                    <div class="col-12 mt-3">
+                        <label class="form-label fw-bold">Labores específicas del Alumni</label>
+                        <div class="hint-block">
+                            Redactar, en detalle, las funciones que deberá desempeñar el profesional alumni de la UAysén en la institución u organización.
+                        </div>
+                        <textarea class="form-control" name="perfil_labores" rows="4" required></textarea>
                     </div>
                     
-                    <div class="col-12 mt-3"><h6 class="text-primary border-bottom pb-2">Plan de formación complementaria</h6></div>
-                    <div class="col-md-6">
-                        <label class="form-label">Competencias Técnicas</label>
-                        <input type="text" class="form-control" name="formacion_tecnica" placeholder="Ej: Manejo de software, normativa local...">
+                    <div class="col-12 mt-4">
+                        <h6 class="text-primary border-bottom pb-2 fw-bold">Plan de formación complementaria</h6>
+                        <p class="small text-muted">Identifique las competencias técnicas y habilidades blandas que la institución fortalecerá en el profesional durante el proceso de inserción.</p>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Habilidades Blandas</label>
-                        <input type="text" class="form-control" name="formacion_blanda" placeholder="Ej: Liderazgo, comunicación territorial...">
+                        <label class="form-label fw-bold">Competencias Técnicas</label>
+                        <span class="hint-icon" data-bs-toggle="tooltip" title="Indicar temas o capacitaciones. Ej: Manejo de software, normativa local"><i class="bi bi-question-circle-fill"></i></span>
+                        <input type="text" class="form-control" name="formacion_tecnica" placeholder="Ej: Manejo de software, normativa local..." required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Habilidades Blandas</label>
+                        <span class="hint-icon" data-bs-toggle="tooltip" title="Ej: Liderazgo, comunicación territorial, etc."><i class="bi bi-question-circle-fill"></i></span>
+                        <input type="text" class="form-control" name="formacion_blanda" placeholder="Ej: Liderazgo, comunicación territorial..." required>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+                        <label class="form-label fw-bold">Impacto Territorial</label>
+                        <div class="form-text small mb-1">Detalle cómo el desafío generará cambios reales en el territorio.</div>
+                        <textarea class="form-control" name="impacto" rows="2" required></textarea>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <label class="form-label fw-bold">Sostenibilidad</label>
+                        <div class="form-text small mb-1">Mecanismos para mantener la iniciativa tras el subsidio.</div>
+                        <textarea class="form-control" name="sostenibilidad" rows="2" required></textarea>
                     </div>
                 </div>
             </div>
 
             <div class="form-section">
                 <div class="section-title">5. Financiamiento</div>
-                <p class="text-muted small">El aporte de la Universidad es fijo ($13.200.000).</p>
+                <div class="alert alert-secondary small">
+                    Los recursos provenientes de la Universidad de Aysén ($1.100.000 mensual durante un año) serán transferidos directamente al alumni. Cualquier copago debe ser registrado aquí.
+                </div>
                 
                 <table class="table table-bordered align-middle">
                     <thead class="table-light">
                         <tr class="text-center">
-                            <th width="40%">Ítem</th>
+                            <th width="40%">Ítem / Subítem</th>
                             <th width="30%">Aporte UAysén ($)</th>
                             <th width="30%">Aporte Socio ($)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>Recursos Humanos</strong><br><span class="small text-muted">Honorarios Alumni (12 meses)</span></td>
-                            <td><div class="input-group"><span class="input-group-text">$</span><input type="text" class="form-control text-end" value="13.200.000" readonly style="background-color: #e9ecef;"></div></td>
-                            <td><input type="text" class="form-control text-end" value="0" disabled></td>
+                            <td>
+                                <strong>Recursos Humanos</strong><br>
+                                <span class="small text-muted">Contratación de alumni UAysén (Convenio Honorario)</span>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="text" class="form-control text-end bg-light" value="13.200.000" readonly>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control text-end" value="0" disabled placeholder="No aplica">
+                            </td>
                         </tr>
                         <tr>
-                            <td><strong>Gastos de Operación</strong><br><span class="small text-muted">Movilización, Viáticos, Seguros</span></td>
-                            <td><input type="text" class="form-control text-end" value="0" disabled></td>
-                            <td><div class="input-group"><span class="input-group-text">$</span><input type="number" class="form-control text-end" id="input_socio" value="0" min="0" oninput="calcularTotal()"></div></td>
+                            <td>
+                                <strong>Gastos de Operación (Copago)</strong><br>
+                                <span class="small text-muted">Movilización, Viáticos, Mantención, Seguros</span>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control text-end" value="0" disabled>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control text-end" id="input_socio" value="0" min="0" oninput="calcularTotal()" name="monto_socio">
+                                </div>
+                            </td>
                         </tr>
                         <tr class="table-primary total-row">
                             <td class="text-end">TOTAL PROYECTO</td>
@@ -251,63 +347,181 @@
                         </tr>
                     </tbody>
                 </table>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Aportes no pecuniarios</label>
+                    <textarea class="form-control" name="no_pecuniarios" rows="2" placeholder="Descripción del espacio físico, equipamiento, personal y aportes no monetarios asignados al proyecto"></textarea>
+                </div>
             </div>
 
             <div class="d-grid gap-2 mb-5">
-                <button type="submit" class="btn btn-primary btn-lg fw-bold" id="btnSubmit">ENVIAR POSTULACIÓN</button>
+                <button type="button" class="btn btn-dark btn-lg fw-bold" onclick="abrirRevision()">
+                    <i class="bi bi-eye-fill"></i> REVISAR ANTES DE ENVIAR
+                </button>
             </div>
 
         </form>
     </div>
 
+    <div class="modal fade" id="modalRevision" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Revisión de Postulación</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning small">
+                        <i class="bi bi-check-circle"></i> Por favor verifique que toda la información esté correcta. Si necesita corregir algo, cierre esta ventana y edite el formulario.
+                    </div>
+                    <div id="contenidoRevision">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver y Editar</button>
+                    <button type="button" class="btn btn-success fw-bold" id="btnConfirmarEnvio" onclick="enviarFormularioReal()">
+                        CONFIRMAR Y ENVIAR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // INICIALIZACIÓN DE TOOLTIPS Y OBJETIVOS
+        // --- 1. CONFIGURACIÓN INICIAL ---
         document.addEventListener("DOMContentLoaded", function(){
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             tooltipTriggerList.map(function (tooltipTriggerEl) { return new bootstrap.Tooltip(tooltipTriggerEl); });
-            agregarFilaObjetivo(); // Primer objetivo por defecto
+            agregarFilaObjetivo(); // Iniciar con 1 objetivo
         });
 
-        // LÓGICA DE OBJETIVOS
+        // --- 2. CONTADOR DE PALABRAS ---
+        function contarPalabras(idInput, idCounter) {
+            const input = document.getElementById(idInput);
+            const counter = document.getElementById(idCounter);
+            const maxWords = 300;
+            
+            // Lógica para contar palabras (separadas por espacios)
+            const words = input.value.trim().split(/\s+/).filter(word => word.length > 0).length;
+            
+            counter.innerText = `${words} / ${maxWords} palabras`;
+            
+            if(words > maxWords) {
+                counter.classList.add('text-danger');
+                counter.innerText += " (Excede el máximo)";
+            } else {
+                counter.classList.remove('text-danger');
+            }
+        }
+
+        // --- 3. OBJETIVOS DINÁMICOS (LÍMITE 4) ---
         let contadorObj = 0;
         function agregarFilaObjetivo() {
+            if(contadorObj >= 4) {
+                alert("Se recomienda un máximo de 3 a 4 objetivos específicos.");
+                return;
+            }
+            
             contadorObj++;
             const nuevaFila = document.createElement('div');
-            nuevaFila.className = 'card card-objetivo p-3 fade-in';
+            nuevaFila.className = 'card card-objetivo fade-in';
             nuevaFila.id = 'obj_fila_' + contadorObj;
+            
             nuevaFila.innerHTML = `
-                <div class="d-flex justify-content-between mb-2">
-                    <h6 class="fw-bold text-primary">Objetivo Específico N° ${contadorObj}</h6>
-                    ${contadorObj > 1 ? `<button type="button" class="btn-close" onclick="eliminarFila(${contadorObj})"></button>` : ''}
+                <div class="card-header-obj">
+                    <span class="fw-bold text-primary">Objetivo Específico N° ${contadorObj}</span>
+                    ${contadorObj > 1 ? `<button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarFila(${contadorObj})"><i class="bi bi-trash"></i> Eliminar</button>` : ''}
                 </div>
-                <div class="mb-2"><input type="text" class="form-control" name="obj_desc_${contadorObj}" placeholder="Descripción del objetivo..." required></div>
-                <div class="row g-2">
-                    <div class="col-12"><textarea class="form-control form-control-sm" name="obj_act_${contadorObj}" rows="2" placeholder="Actividades principales..." required></textarea></div>
-                    <div class="col-6"><input type="text" class="form-control form-control-sm" name="obj_res_${contadorObj}" placeholder="Resultados esperados" required></div>
-                    <div class="col-6"><input type="text" class="form-control form-control-sm" name="obj_met_${contadorObj}" placeholder="Metodología" required></div>
-                </div>`;
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Descripción del Objetivo</label>
+                        <input type="text" class="form-control" name="obj_desc_${contadorObj}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Actividades Principales (Máx 4 por hito)</label>
+                        <div class="form-text mb-1">Listado de actividades en orden cronológico y secuencial.</div>
+                        <textarea class="form-control form-control-sm" name="obj_act_${contadorObj}" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Resultados Esperados</label>
+                            <span class="hint-icon" data-bs-toggle="tooltip" title="Pueden ser de naturaleza cualitativa o cuantitativa. Indicar un medio de verificación preciso."><i class="bi bi-question-circle-fill"></i></span>
+                            <textarea class="form-control form-control-sm" name="obj_res_${contadorObj}" rows="2" placeholder="Ej: Informe de diagnóstico..." required></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Metodología de Acompañamiento</label>
+                             <div class="form-text text-primary mb-1" style="font-size: 0.75rem;">
+                                <i class="bi bi-arrow-return-right"></i> <strong>Crucial:</strong> Describir tutoría técnica y reuniones de seguimiento. Debe haber coherencia entre Objetivo-Actividad-Resultado.
+                            </div>
+                            <textarea class="form-control form-control-sm" name="obj_met_${contadorObj}" rows="2" placeholder="Ej: Tutoría técnica semanal y evaluación..." required></textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
             document.getElementById('contenedor-objetivos').appendChild(nuevaFila);
+            
+            // Ocultar botón si llegamos a 4
+            if(contadorObj >= 4) {
+                document.getElementById('btnAgregarObj').style.display = 'none';
+            }
         }
-        function eliminarFila(id) { document.getElementById('obj_fila_' + id).remove(); }
 
-        // LÓGICA DE CÁLCULO
+        function eliminarFila(id) {
+            document.getElementById('obj_fila_' + id).remove();
+            contadorObj--;
+            document.getElementById('btnAgregarObj').style.display = 'block';
+        }
+
+        // --- 4. CÁLCULO FINANCIERO ---
         function calcularTotal() {
             const aporteSocio = parseFloat(document.getElementById('input_socio').value) || 0;
             const total = 13200000 + aporteSocio;
             document.getElementById('texto_total').innerText = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(total);
         }
 
-        // LÓGICA DE ENVÍO
-        document.getElementById('postulacionForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('btnSubmit');
-            btn.innerHTML = 'Enviando...'; btn.disabled = true;
+        // --- 5. MODAL DE REVISIÓN Y ENVÍO ---
+        function abrirRevision() {
+            const form = document.getElementById('postulacionForm');
+            if(!form.checkValidity()) {
+                form.reportValidity(); // Muestra los errores nativos del navegador si faltan campos
+                return;
+            }
+
+            const formData = new FormData(form);
+            let htmlResumen = "";
+
+            // Mapeo simple para mostrar datos (se puede mejorar estéticamente)
+            for (const [key, value] of formData.entries()) {
+                // Ignorar campos vacíos o ocultos irrelevantes
+                if(value.trim() !== "") {
+                    htmlResumen += `<div class="review-label">${key.replace(/_/g, " ").toUpperCase()}:</div>`;
+                    htmlResumen += `<div class="review-value">${value}</div>`;
+                }
+            }
+
+            document.getElementById('contenidoRevision').innerHTML = htmlResumen;
+            var myModal = new bootstrap.Modal(document.getElementById('modalRevision'));
+            myModal.show();
+        }
+
+        function enviarFormularioReal() {
+            const btn = document.getElementById('btnConfirmarEnvio');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
+            btn.disabled = true;
+
+            // AQUÍ CONECTAS CON TU GOOGLE APPS SCRIPT
+            // fetch(SCRIPT_URL, ... )
             
-            // SIMULACIÓN
-            setTimeout(() => { alert("Recuerda que falta conectar el script de Google. Los logos ya están configurados."); btn.disabled = false; btn.innerText = "ENVIAR POSTULACIÓN"; }, 1500);
-        });
+            setTimeout(() => {
+                alert("¡Postulación enviada correctamente!");
+                location.reload();
+            }, 2000);
+        }
     </script>
 </body>
 </html>
