@@ -23,8 +23,11 @@
         .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
         .bloque-izq { display: flex; gap: 20px; align-items: center; }
         .bloque-der { display: flex; align-items: center; }
-        .logo-gob { height: 55px; width: auto; }
-        .logo-uaysen { height: 70px; width: auto; }
+        
+        /* Ajuste de logos para que no se rompan */
+        .logo-gob { height: 55px; width: auto; object-fit: contain; }
+        .logo-uaysen { height: 70px; width: auto; object-fit: contain; }
+        
         .page-title { color: #003366; margin-top: 15px; font-weight: 700; text-align: center; width: 100%; padding-top: 20px; border-top: 1px solid #eee; }
 
         /* FORMULARIO */
@@ -46,7 +49,7 @@
         
         .total-row input { font-weight: bold; color: #003366; font-size: 1.1em; }
 
-        /* SECCIÓN CONTACTO (ESTILO DIFERENTE) */
+        /* SECCIÓN CONTACTO */
         .seccion-contacto {
             background-color: #e8f0fe;
             border: 2px dashed #0d6efd;
@@ -71,10 +74,16 @@
             <div class="container">
                 <div class="header-content">
                     <div class="bloque-izq">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Gobierno_de_Chile_2022_%28azul%29.svg/2560px-Gobierno_de_Chile_2022_%28azul%29.svg.png" alt="Gobierno de Chile" class="logo-gob">
-                        </div>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Gobierno_de_Chile_2022_%28azul%29.svg/800px-Gobierno_de_Chile_2022_%28azul%29.svg.png" 
+                             alt="Gobierno de Chile" 
+                             class="logo-gob"
+                             crossorigin="anonymous">
+                    </div>
                     <div class="bloque-der">
-                        <img src="https://uaysen.cl/sites/default/files/2021-03/logo-uaysen.png" alt="Universidad de Aysén" class="logo-uaysen">
+                        <img src="https://uaysen.cl/sites/default/files/2021-03/logo-uaysen.png" 
+                             alt="Universidad de Aysén" 
+                             class="logo-uaysen"
+                             crossorigin="anonymous">
                     </div>
                     <div class="page-title">
                         <h1 class="h3 mb-1">Formulario de Postulación</h1>
@@ -447,7 +456,7 @@
         }
         function eliminarFila(id) { document.getElementById('obj_fila_' + id).remove(); contadorObj--; document.getElementById('btnAgregarObj').style.display = 'block'; }
 
-        // --- NUEVA LÓGICA DE ENVÍO CON PDF Y GOOGLE APPS SCRIPT ---
+        // --- LÓGICA DE ENVÍO CON PDF Y GOOGLE APPS SCRIPT ---
         function generarYEnviar() {
             // 1. Validaciones
             const form = document.getElementById('postulacionForm');
@@ -473,29 +482,25 @@
             msg.style.display = 'block';
 
             // 3. Configuración del PDF (html2pdf)
-            // Seleccionamos solo el contenido principal, ignorando la sección de contacto (gracias al atributo data-html2canvas-ignore)
-            const elemento = document.body; // Capturamos todo el body, pero el bloque de contacto se ignora.
+            const elemento = document.body;
 
             const opt = {
                 margin:       [10, 10, 10, 10],
                 filename:     'Postulacion_UAysen.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true }, // useCORS ayuda con las imágenes externas
+                html2canvas:  { scale: 2, useCORS: true }, // useCORS es clave para las imágenes externas
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // 4. Generar Blob y Enviar a Google Apps Script
+            // 4. Generar Blob y Enviar
             html2pdf().set(opt).from(elemento).outputPdf('blob').then(function(pdfBlob) {
                 
-                // Recopilar datos para el script (nombres y correos)
                 const datosFormulario = {
                     postulanteNombre: nombrePostulante,
                     postulanteEmail: emailPostulante,
-                    // Si deseas enviar datos específicos del form como JSON también, agrégalos aquí:
                     institucion: document.querySelector('[name="inst_nombre"]').value
                 };
 
-                // Llamada al servidor Google Apps Script
                 google.script.run
                     .withSuccessHandler(function(respuesta) {
                         btn.disabled = false;
@@ -511,6 +516,10 @@
                         alert("Error al enviar: " + error.message);
                     })
                     .procesarEnvioPostulacion(datosFormulario, pdfBlob); 
+            }).catch(function(err) {
+                 btn.disabled = false;
+                 btn.innerHTML = 'Reintentar Envío';
+                 alert("Error generando PDF: " + err.message);
             });
         }
     </script>
