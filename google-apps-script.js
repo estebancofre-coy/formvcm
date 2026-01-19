@@ -26,8 +26,18 @@ const SHEET_NAME = 'Postulaciones'; // Cambia este nombre si tu hoja se llama di
  */
 function doPost(e) {
   try {
+    // Validate input
+    if (!e || !e.postData || !e.postData.contents) {
+      throw new Error('No se recibieron datos válidos');
+    }
+    
     // Parse los datos recibidos
-    const data = JSON.parse(e.postData.contents);
+    let data;
+    try {
+      data = JSON.parse(e.postData.contents);
+    } catch (parseError) {
+      throw new Error('Error al parsear los datos JSON: ' + parseError.message);
+    }
     
     // Obtener la hoja de cálculo
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);

@@ -58,7 +58,7 @@ Este proyecto es un formulario web para postulaciones al Desafío Territorial de
 
 1. Abre el archivo `index.html`
 
-2. Busca la línea 498 (aproximadamente) que contiene:
+2. Busca la línea 545 (aproximadamente) que contiene:
    ```javascript
    const scriptUrl = 'https://script.google.com/macros/s/AKfycbxfgayUzzVfFkPhWr8hsEYVWXypzuiPU15m7zOcb2lnpnyD2TVIhHuSCpiVkl03H3th/exec';
    ```
@@ -162,7 +162,11 @@ Si actualizas el código del Google Apps Script:
 - Los datos personales del postulante se almacenan en Google Sheets
 - El PDF no incluye los datos personales del postulante (solo del proyecto)
 - Asegúrate de que la Google Sheet tenga los permisos adecuados
-- Considera implementar autenticación si es necesario
+- **Importante**: La URL del Google Apps Script está expuesta en el código del formulario. Esto es normal para aplicaciones web públicas, pero considera:
+  - Implementar validación adicional en el script (e.g., verificar dominio de origen)
+  - Monitorear el uso del script para detectar abusos
+  - Implementar rate limiting si es necesario
+- Considera implementar autenticación si el formulario debe ser de acceso restringido
 
 ## Soporte
 
