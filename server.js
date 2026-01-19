@@ -34,7 +34,7 @@ app.post('/api/postulacion', async (req, res) => {
     // Crear directorio de datos si no existe
     const dataDir = path.join(__dirname, 'data');
     if (!fsSync.existsSync(dataDir)) {
-        fsSync.mkdirSync(dataDir);
+        fsSync.mkdirSync(dataDir, { recursive: true });
     }
 
     // Guardar postulación en archivo JSON

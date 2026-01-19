@@ -417,16 +417,17 @@
 
             // Agregar objetivos como array
             const objetivos = [];
-            for (let i = 1; i <= contadorObjetivos; i++) {
-                const objetivo = document.getElementById(`objetivo-${i}`);
-                if (objetivo) {
+            const objetivoElements = document.querySelectorAll('.card-objetivo');
+            objetivoElements.forEach((elemento) => {
+                const id = elemento.id.split('-')[1];
+                if (datos[`objetivo_${id}_desc`]) {
                     objetivos.push({
-                        descripcion: datos[`objetivo_${i}_desc`],
-                        actividades: datos[`objetivo_${i}_actividades`],
-                        resultados: datos[`objetivo_${i}_resultados`]
+                        descripcion: datos[`objetivo_${id}_desc`],
+                        actividades: datos[`objetivo_${id}_actividades`],
+                        resultados: datos[`objetivo_${id}_resultados`]
                     });
                 }
-            }
+            });
             datos.objetivos = objetivos;
 
             try {
