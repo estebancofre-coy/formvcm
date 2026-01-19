@@ -1,13 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const fs = require('fs');
+const fs = require('fs').promises;
+const fsSync = require('fs');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.static('public'));
 
 // Servir el archivo index.html desde la raíz
@@ -16,13 +16,13 @@ app.get('/', (req, res) => {
 });
 
 // Endpoint para recibir postulaciones
-app.post('/api/postulacion', (req, res) => {
+app.post('/api/postulacion', async (req, res) => {
     const postulacion = req.body;
     
     // Validar datos requeridos
     if (!postulacion.inst_nombre || !postulacion.inst_rut) {
         return res.status(400).json({ 
-            error: 'Faltan datos requeridos: nombre e institución' 
+            error: 'Faltan datos requeridos: nombre de institución y RUT' 
         });
     }
 
@@ -33,14 +33,14 @@ app.post('/api/postulacion', (req, res) => {
 
     // Crear directorio de datos si no existe
     const dataDir = path.join(__dirname, 'data');
-    if (!fs.existsSync(dataDir)) {
-        fs.mkdirSync(dataDir);
+    if (!fsSync.existsSync(dataDir)) {
+        fsSync.mkdirSync(dataDir);
     }
 
     // Guardar postulación en archivo JSON
     const filename = path.join(dataDir, `${id}.json`);
     try {
-        fs.writeFileSync(filename, JSON.stringify(postulacion, null, 2));
+        await fs.writeFile(filename, JSON.stringify(postulacion, null, 2));
         
         console.log(`✓ Nueva postulación guardada: ${id}`);
         console.log(`  Institución: ${postulacion.inst_nombre}`);
@@ -60,19 +60,23 @@ app.post('/api/postulacion', (req, res) => {
 });
 
 // Endpoint para listar todas las postulaciones (opcional, para administración)
-app.get('/api/postulaciones', (req, res) => {
+app.get('/api/postulaciones', async (req, res) => {
     const dataDir = path.join(__dirname, 'data');
     
-    if (!fs.existsSync(dataDir)) {
+    if (!fsSync.existsSync(dataDir)) {
         return res.json({ postulaciones: [] });
     }
 
     try {
-        const files = fs.readdirSync(dataDir).filter(f => f.endsWith('.json'));
-        const postulaciones = files.map(file => {
-            const content = fs.readFileSync(path.join(dataDir, file), 'utf8');
-            return JSON.parse(content);
-        });
+        const files = await fs.readdir(dataDir);
+        const jsonFiles = files.filter(f => f.endsWith('.json'));
+        
+        const postulaciones = await Promise.all(
+            jsonFiles.map(async file => {
+                const content = await fs.readFile(path.join(dataDir, file), 'utf8');
+                return JSON.parse(content);
+            })
+        );
         
         res.json({ 
             total: postulaciones.length,
