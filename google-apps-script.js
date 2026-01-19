@@ -13,7 +13,7 @@
  *    - Ejecutar como: "Yo"
  *    - Quién tiene acceso: "Cualquier usuario"
  * 8. Haz clic en "Implementar"
- * 9. Copia la URL generada y reemplázala en index.html línea 498
+ * 9. Copia la URL generada y reemplázala en index.html línea 545
  * 10. Autoriza los permisos cuando se te solicite
  */
 
