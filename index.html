@@ -291,4 +291,183 @@
                                 <input type="number" class="form-control" value="0" disabled>
                             </td>
                             <td>
-                                <input type="number" class="form-control bg-white" id="input_
+                                <input type="number" class="form-control bg-white" id="input_op_socio" name="monto_socio_op" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Capacitación y Formación</strong><br>
+                                <span class="small text-muted">Cursos, talleres, certificaciones</span>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control bg-white" id="input_cap_uaysen" name="monto_uaysen_cap">
+                            </td>
+                            <td>
+                                <input type="number" class="form-control bg-white" id="input_cap_socio" name="monto_socio_cap">
+                            </td>
+                        </tr>
+                        <tr class="total-row">
+                            <td><strong>TOTAL</strong></td>
+                            <td>
+                                <input type="number" class="form-control" id="total_uaysen" readonly>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" id="total_socio" readonly>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center my-4">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    Enviar Postulación
+                    <span class="loader" id="submitLoader"></span>
+                </button>
+            </div>
+
+        </form>
+
+        <div id="mensajeResultado" class="alert mt-3" style="display:none;"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let contadorObjetivos = 0;
+
+        // Función para agregar objetivo específico
+        function agregarObjetivo() {
+            contadorObjetivos++;
+            const container = document.getElementById('objetivos-container');
+            const objetivoHTML = `
+                <div class="card card-objetivo" id="objetivo-${contadorObjetivos}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="card-title mb-0">Objetivo Específico ${contadorObjetivos}</h6>
+                            <button type="button" class="btn btn-sm btn-danger" onclick="eliminarObjetivo(${contadorObjetivos})">
+                                Eliminar
+                            </button>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Descripción del objetivo</label>
+                            <textarea class="form-control" name="objetivo_${contadorObjetivos}_desc" rows="2" required></textarea>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Actividades</label>
+                            <textarea class="form-control" name="objetivo_${contadorObjetivos}_actividades" rows="2" required></textarea>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Resultados esperados</label>
+                            <textarea class="form-control" name="objetivo_${contadorObjetivos}_resultados" rows="2" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', objetivoHTML);
+        }
+
+        // Función para eliminar objetivo específico
+        function eliminarObjetivo(id) {
+            const elemento = document.getElementById(`objetivo-${id}`);
+            if (elemento) {
+                elemento.remove();
+            }
+        }
+
+        // Calcular totales de financiamiento
+        function calcularTotales() {
+            // UAysén
+            const rrhh = parseFloat(document.querySelector('[name="monto_uaysen_rrhh"]').value) || 0;
+            const capUaysen = parseFloat(document.getElementById('input_cap_uaysen').value) || 0;
+            document.getElementById('total_uaysen').value = rrhh + capUaysen;
+
+            // Socio
+            const opSocio = parseFloat(document.getElementById('input_op_socio').value) || 0;
+            const capSocio = parseFloat(document.getElementById('input_cap_socio').value) || 0;
+            document.getElementById('total_socio').value = opSocio + capSocio;
+        }
+
+        // Event listeners para calcular totales
+        document.getElementById('input_op_socio').addEventListener('input', calcularTotales);
+        document.getElementById('input_cap_uaysen').addEventListener('input', calcularTotales);
+        document.getElementById('input_cap_socio').addEventListener('input', calcularTotales);
+
+        // Calcular totales al cargar
+        calcularTotales();
+
+        // Manejo del envío del formulario
+        document.getElementById('postulacionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const loader = document.getElementById('submitLoader');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const mensajeDiv = document.getElementById('mensajeResultado');
+            
+            // Mostrar loader
+            loader.style.display = 'inline-block';
+            submitBtn.disabled = true;
+
+            // Recopilar datos del formulario
+            const formData = new FormData(this);
+            const datos = {};
+            
+            formData.forEach((value, key) => {
+                datos[key] = value;
+            });
+
+            // Agregar objetivos como array
+            const objetivos = [];
+            for (let i = 1; i <= contadorObjetivos; i++) {
+                const objetivo = document.getElementById(`objetivo-${i}`);
+                if (objetivo) {
+                    objetivos.push({
+                        descripcion: datos[`objetivo_${i}_desc`],
+                        actividades: datos[`objetivo_${i}_actividades`],
+                        resultados: datos[`objetivo_${i}_resultados`]
+                    });
+                }
+            }
+            datos.objetivos = objetivos;
+
+            try {
+                // Enviar datos al servidor
+                const response = await fetch('/api/postulacion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datos)
+                });
+
+                const resultado = await response.json();
+
+                if (response.ok) {
+                    mensajeDiv.className = 'alert alert-success mt-3';
+                    mensajeDiv.textContent = '✓ Postulación enviada exitosamente. ID: ' + resultado.id;
+                    mensajeDiv.style.display = 'block';
+                    
+                    // Limpiar formulario
+                    this.reset();
+                    document.getElementById('objetivos-container').innerHTML = '';
+                    contadorObjetivos = 0;
+                    calcularTotales();
+                } else {
+                    throw new Error(resultado.error || 'Error al enviar la postulación');
+                }
+            } catch (error) {
+                mensajeDiv.className = 'alert alert-danger mt-3';
+                mensajeDiv.textContent = '✗ Error: ' + error.message;
+                mensajeDiv.style.display = 'block';
+            } finally {
+                // Ocultar loader
+                loader.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Agregar un objetivo por defecto al cargar
+        agregarObjetivo();
+    </script>
+
+</body>
+</html>
